@@ -90,7 +90,7 @@ details.rv .rb{padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;
     <div class="card stack">
       <h2 style="font-size:1.3rem">Pilih avatar</h2>
       <div class="avs" id="avs" role="radiogroup" aria-label="Pilih avatar"></div>
-      <label class="fld" for="nm">Nama panggilan<input type="text" id="nm" maxlength="18" placeholder="Contoh: Rapsanjani" autocomplete="off"></label>
+      <label class="fld" for="nm">Nama panggilan<input type="text" id="nm" maxlength="18" placeholder="Contoh: Fulan" autocomplete="off"></label>
       <label class="chk" for="shuf"><input type="checkbox" id="shuf" checked> Acak urutan soal</label>
       <div class="row"><button class="btn primary big" id="go" type="button">Mulai kuis</button></div>
     </div>
@@ -126,7 +126,7 @@ details.rv .rb{padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;
 'use strict';
 /* ====== KONFIGURASI SUPABASE: isi dua baris ini ====== */
 var CFG = { url: 'https://llyixfvkztvbtmthjdci.supabase.co', key: 'sb_publishable_9yQrdbPoH6fLD6CGxE6IOA_e24JfYn_', table: 'skor_kuis' };
-var ON = !/PROJECT-ID|sb_publishable_9yQrdbPoH6fLD6CGxE6IOA_e24JfYn_/.test(CFG.url + CFG.key);
+var ON = !/PROJECT-ID|ANON_PUBLIC_KEY/.test(CFG.url + CFG.key);
 
 function h(tag, at) {
   var e = document.createElement(tag);
