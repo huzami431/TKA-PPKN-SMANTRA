@@ -145,7 +145,7 @@ function api(path, opt) {
   opt = opt || {};
   opt.headers = Object.assign({ apikey: CFG.key, 'Content-Type': 'application/json' }, opt.headers || {});
   if (CFG.key.indexOf('sb_') !== 0) opt.headers.Authorization = 'Bearer ' + CFG.key;
-  return fetch(CFG.url + '/rest/v1/' + path, opt).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  return fetch(CFG.url + '/rest/v1/' + path, opt).then(function (r) { if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ' ' + t.slice(0, 200)); }); return r.json(); });
 }
 function board(box, mine) {
   if (!ON) { box.replaceChildren(h('p', { class: 'muted' }, 'Supabase belum dikonfigurasi. Isi CFG.url dan CFG.key di dalam skrip.')); return; }
@@ -158,7 +158,7 @@ function board(box, mine) {
     box.replaceChildren(h('p', { class: 'muted', style: 'font-size:.85rem;margin-bottom:8px' }, 'Menampilkan ' + rows.length + ' skor teratas. Gulir untuk melihat peringkat lainnya.'), wrap);
     var me = wrap.querySelector('.me');
     if (me) wrap.scrollTop = Math.max(0, me.offsetTop - wrap.clientHeight / 2);
-  }).catch(function () { box.replaceChildren(h('p', { class: 'muted' }, 'Papan skor gagal dimuat. Periksa URL, key, dan kebijakan RLS.')); });
+  }).catch(function (e) { box.replaceChildren(h('p', { class: 'muted' }, 'Papan skor gagal dimuat.'), h('p', { class: 'muted', style: 'font-size:.8rem;word-break:break-all' }, 'Detail: ' + e.message)); });
 }
 
 /* ---------- soal ----------
@@ -382,7 +382,7 @@ function save() {
   st.textContent = 'Mengirim skor…';
   api(CFG.table, { method: 'POST', headers: { Prefer: 'return=representation' }, body: JSON.stringify({ nama: S.name, avatar: S.av, skor: S.score, nilai: S.nilai, benar: S.full, total: S.order.length }) })
     .then(function (r) { st.textContent = 'Skormu sudah masuk papan skor.'; board($('#lb-res'), r[0] && r[0].id); })
-    .catch(function () { st.textContent = 'Gagal mengirim skor. '; st.append(h('button', { class: 'btn alt', type: 'button', style: 'padding:4px 12px', onclick: save }, 'Coba lagi')); board($('#lb-res')); });
+    .catch(function (e) { st.textContent = 'Gagal mengirim skor (' + e.message + '). '; st.append(h('button', { class: 'btn alt', type: 'button', style: 'padding:4px 12px', onclick: save }, 'Coba lagi')); board($('#lb-res')); });
 }
 
 /* ---------- wiring ---------- */
