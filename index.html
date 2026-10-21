@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kuis PPKn TKA 2026 · Model Baru</title>
+<title>Kuis PPKn TKA 2026 · TO-2</title>
 <!--
 SQL Supabase (jalankan sekali di SQL Editor):
 
@@ -11,7 +11,7 @@ create table public.skor_kuis (
   id bigint generated always as identity primary key,
   nama text not null check (char_length(nama) between 1 and 18),
   avatar text not null check (char_length(avatar) <= 8),
-  skor int not null check (skor between 0 and 300),
+  skor int not null check (skor between 0 and 500),
   nilai int not null check (nilai between 0 and 100),
   benar int not null check (benar between 0 and 50),
   total int not null check (total between 1 and 50),
@@ -37,7 +37,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero h1 span{background:var(--ink);color:var(--bg);padding:0 .18em;border-radius:8px;white-space:nowrap}
 .avs{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:10px}
 .av{position:relative;cursor:pointer}.av input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
-.av span{display:grid;place-items:center;font-size:2rem;padding:8px;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper)}
+.av>span{display:grid;place-items:center;padding:6px;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper)}
 .av input:checked+span{background:var(--soft);box-shadow:4px 4px 0 var(--red);transform:translate(-2px,-2px)}.av input:focus-visible+span{outline:3px solid var(--blue);outline-offset:3px}
 label.fld{display:flex;flex-direction:column;gap:6px;font-weight:700}.chk{display:flex;align-items:center;gap:10px;font-weight:600}.chk input{width:22px;height:22px;accent-color:var(--red)}
 input[type=text],select{font:600 1rem var(--b);color:var(--ink);background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:11px 14px;width:100%}
@@ -54,7 +54,8 @@ input.ok{background:var(--gbg);border-color:var(--green)}input.no{background:var
 .prog{height:14px;border:2.5px solid var(--ink);border-radius:99px;background:var(--paper);overflow:hidden}.prog i{display:block;height:100%;background:var(--red);width:0;transition:width .35s}
 .qcard{margin-top:8px;display:flex;flex-direction:column;gap:14px}.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .chip{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);border-radius:99px;padding:2px 10px;background:var(--soft)}.chip.k{background:var(--ink);color:var(--bg)}
-.qno{font-family:var(--d);font-weight:800;font-size:1.4rem}.qtext{font-weight:700;max-width:68ch}
+.qno{font-family:var(--d);font-weight:800;font-size:1.4rem}.qtext{font-weight:700;max-width:68ch;white-space:pre-line}
+.qimg{display:block;max-width:100%;max-height:340px;object-fit:contain;align-self:flex-start;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
 .sa{background:var(--soft);border:2px solid var(--ink);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .opts{display:flex;flex-direction:column;gap:10px}
 .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:11px 14px;font:500 1rem/1.5 var(--b);cursor:pointer}
@@ -76,6 +77,8 @@ input.ok{background:var(--gbg);border-color:var(--green)}input.no{background:var
 .bk-row .t{height:16px;border:2px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden}.bk-row .t i{display:block;height:100%;background:var(--green)}
 details.rv{border:2.5px solid var(--ink);border-radius:14px;background:#fff}details.rv summary{cursor:pointer;padding:10px 14px;font-weight:600}
 details.rv .rb{padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;border-top:2px dashed var(--ink);overflow-wrap:anywhere}.rb ul{margin:0;padding-left:1.2em}
+.tmr{height:10px;border:2px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden}.tmr i{display:block;height:100%;width:100%;background:var(--green);transition:width .25s linear}.tmr i.low{background:var(--red)}.chip.tt{background:var(--paper);font-variant-numeric:tabular-nums}
+.ava{display:inline-block;vertical-align:middle;line-height:0;overflow:hidden;border-radius:50%;border:2px solid var(--ink);background:#fff}.ava svg{display:block;width:100%;height:100%}.ava.sm{width:32px;height:32px}.ava.md{width:60px;height:60px}.av .ava{display:block;width:100%;aspect-ratio:1/1}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -85,12 +88,12 @@ details.rv .rb{padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;
     <div class="hero">
       <div class="eyebrow">Pendidikan Pancasila · SMA/MA/SMK</div>
       <h1>Kuis <span>PPKn</span> TKA 2026</h1>
-      <p>16 soal dengan model baru: menjodohkan, isian singkat, klasifikasi, dan sebab-akibat. Materinya tetap Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan NKRI. Tanpa batas waktu, jawab dengan tenang.</p>
+      <p>25 soal Pendidikan Pancasila (TO-2): pilihan ganda, pilihan ganda kompleks, dan benar/salah. Tiap soal punya waktu 60 detik. Skor akhir masuk ke papan skor.</p>
     </div>
     <div class="card stack">
       <h2 style="font-size:1.3rem">Pilih avatar</h2>
       <div class="avs" id="avs" role="radiogroup" aria-label="Pilih avatar"></div>
-      <label class="fld" for="nm">Nama panggilan<input type="text" id="nm" maxlength="18" placeholder="Contoh: Ismet kopling" autocomplete="off"></label>
+      <label class="fld" for="nm">Nama panggilan<input type="text" id="nm" maxlength="18" placeholder="Contoh: Rapsanjani" autocomplete="off"></label>
       <label class="chk" for="shuf"><input type="checkbox" id="shuf" checked> Acak urutan soal</label>
       <div class="row"><button class="btn primary big" id="go" type="button">Mulai kuis</button></div>
     </div>
@@ -101,9 +104,9 @@ details.rv .rb{padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;
     <div class="card stack">
       <h2 style="font-size:1.3rem">Cara penilaian</h2>
       <div class="rules">
-        <div><b>10 poin</b>Setiap soal benar penuh. Menjodohkan dan klasifikasi dapat nilai sebagian.</div>
+        <div><b>10 poin</b>Setiap soal benar penuh. Soal benar/salah dan pilihan ganda kompleks dapat nilai sebagian.</div>
         <div><b>+3</b>Bonus beruntun mulai dari 3 jawaban benar penuh berturut-turut.</div>
-        <div><b>Tanpa waktu</b>Skor akhir dikirim ke papan skor Supabase.</div>
+        <div><b>60 detik</b>Waktu per soal. Jika habis, jawaban otomatis dinilai.</div>
       </div>
     </div>
   </section>
@@ -153,7 +156,7 @@ function board(box, mine) {
   api(CFG.table + '?select=id,nama,avatar,skor,nilai&order=skor.desc,created_at.asc&limit=200').then(function (rows) {
     if (!rows.length) return box.replaceChildren(h('p', { class: 'muted' }, 'Belum ada skor. Jadilah yang pertama!'));
     var wrap = h('div', { class: 'lbw' }, h('ol', { class: 'lb' }, rows.map(function (r, i) {
-      return h('li', { class: r.id === mine ? 'me' : '' }, h('span', { class: 'rk' }, i + 1), h('span', { class: 'nm' }, r.avatar + ' ' + r.nama), h('span', { class: 'sc' }, r.skor + ' poin'), h('span', { class: 'nl' }, 'nilai ' + r.nilai));
+      return h('li', { class: r.id === mine ? 'me' : '' }, h('span', { class: 'rk' }, i + 1), h('span', { class: 'nm' }, avEl(r.avatar, 'sm'), ' ' + r.nama), h('span', { class: 'sc' }, r.skor + ' poin'), h('span', { class: 'nl' }, 'nilai ' + r.nilai));
     })));
     box.replaceChildren(h('p', { class: 'muted', style: 'font-size:.85rem;margin-bottom:8px' }, 'Menampilkan ' + rows.length + ' skor teratas. Gulir untuk melihat peringkat lainnya.'), wrap);
     var me = wrap.querySelector('.me');
@@ -166,65 +169,92 @@ function board(box, mine) {
 var OA = ['Pernyataan benar, sebab benar, dan keduanya berhubungan sebab-akibat',
   'Pernyataan benar, sebab benar, tetapi keduanya tidak berhubungan sebab-akibat',
   'Pernyataan benar, tetapi sebab salah', 'Pernyataan salah, tetapi sebab benar', 'Pernyataan dan sebab keduanya salah'];
-var TL = { j: 'Menjodohkan', i: 'Isian singkat', k: 'Klasifikasi', a: 'Sebab-akibat' };
+var TL = { j: 'Menjodohkan', i: 'Isian singkat', k: 'Klasifikasi', a: 'Sebab-akibat', s: 'Pilihan ganda', m: 'Pilihan ganda kompleks' };
 var Q = [
-  { t: 'j', el: 'UUD 1945', q: 'Jodohkan wewenang berikut dengan lembaga negara yang tepat!',
-    L: [['Memutus perselisihan hasil pemilihan umum', 0], ['Menguji peraturan di bawah undang-undang terhadap undang-undang', 1], ['Mengubah dan menetapkan Undang-Undang Dasar', 2], ['Menyelenggarakan pemilihan umum', 3]],
-    O: ['Mahkamah Konstitusi', 'Mahkamah Agung', 'MPR', 'KPU'],
-    x: 'MK memutus sengketa hasil pemilu, MA menguji peraturan di bawah UU, MPR berwenang mengubah dan menetapkan UUD, sedangkan KPU adalah penyelenggara pemilu.' },
-  { t: 'j', el: 'Pancasila', q: 'Jodohkan perilaku berikut dengan sila Pancasila yang paling tepat!',
-    L: [['Warga saling menghormati saat tetangganya beribadah', 0], ['Menolong korban banjir tanpa memandang suku dan agama', 1], ['Mendahulukan kepentingan bangsa daripada kepentingan golongan', 2], ['Memutuskan bantuan sosial lewat musyawarah warga', 3], ['Membagi fasilitas umum secara merata kepada semua warga', 4]],
-    O: ['Sila 1 · Ketuhanan', 'Sila 2 · Kemanusiaan', 'Sila 3 · Persatuan', 'Sila 4 · Kerakyatan (musyawarah)', 'Sila 5 · Keadilan sosial'],
-    x: 'Toleransi beribadah mencerminkan sila 1, tolong-menolong tanpa pandang bulu sila 2, mengutamakan bangsa sila 3, musyawarah sila 4, dan pemerataan fasilitas sila 5.' },
-  { t: 'j', el: 'Bhinneka Tunggal Ika', q: 'Jodohkan istilah ancaman integrasi nasional dengan pengertiannya!',
-    L: [['Sukuisme', 0], ['Diskriminasi', 1], ['Radikalisme', 2], ['Hoaks', 3]],
-    O: ['Menganggap suku sendiri paling unggul', 'Perlakuan tidak adil karena perbedaan suku, agama, ras, atau status sosial', 'Paham yang ingin mengubah ideologi negara secara drastis', 'Informasi palsu yang dapat memecah belah masyarakat'],
-    x: 'Keempatnya memicu perpecahan: sukuisme (suku sendiri paling unggul), diskriminasi (perlakuan tidak adil), radikalisme (ingin mengubah ideologi negara), dan hoaks (informasi palsu).' },
-  { t: 'j', el: 'NKRI', q: 'Jodohkan gatra Wawasan Nusantara dengan contoh pelaksanaannya!',
-    L: [['Ideologi', 0], ['Ekonomi', 1], ['Sosial budaya', 2], ['Pertahanan keamanan', 3]],
-    O: ['Seluruh rakyat menerima Pancasila sebagai dasar negara', 'Pembangunan melibatkan potensi dan partisipasi seluruh rakyat', 'Kerukunan dan toleransi antarsuku serta antaragama', 'Seluruh warga ikut serta dalam pembelaan negara'],
-    x: 'Gatra ideologi berkaitan dengan penerimaan Pancasila, ekonomi dengan demokrasi ekonomi, sosial budaya dengan kerukunan, dan pertahanan keamanan dengan pembelaan negara oleh seluruh warga.' },
-
-  { t: 'i', el: 'UUD 1945', q: 'Pasal 27 ayat (3) UUD NRI 1945 menyatakan setiap warga negara berhak dan wajib ikut serta dalam upaya ____ negara.', a: ['pembelaan', 'bela'],
-    x: 'Pasal 27 ayat (3) mengatur hak dan kewajiban pembelaan negara.' },
-  { t: 'i', el: 'UUD 1945', q: 'Lembaga negara yang berwenang memutus perselisihan hasil pemilihan kepala daerah adalah ____ (tulis nama lengkap atau singkatannya).', a: ['mahkamah konstitusi', 'mk'],
-    x: 'Perselisihan hasil pemilihan diputus oleh Mahkamah Konstitusi. KPU menyelenggarakan, Bawaslu mengawasi.' },
-  { t: 'i', el: 'Bhinneka Tunggal Ika', q: 'Semboyan Bhinneka Tunggal Ika berarti berbeda-beda tetapi tetap ____ .', a: ['satu', 'satu jua', 'satu juga'],
-    x: 'Bhinneka Tunggal Ika berarti berbeda-beda tetapi tetap satu jua.' },
-  { t: 'i', el: 'NKRI', q: 'Pembangunan ekonomi yang melibatkan partisipasi seluruh rakyat, bukan hanya pihak tertentu, merupakan wujud demokrasi ____ .', a: ['ekonomi'],
-    x: 'Wawasan Nusantara bidang ekonomi mengamanatkan demokrasi ekonomi agar semua lapisan ikut berpartisipasi dan menikmati hasilnya.' },
-
-  { t: 'k', el: 'UUD 1945', q: 'Kelompokkan setiap wewenang berikut ke lembaga yang memilikinya!', C: ['MK', 'MA', 'MPR'],
-    S: [['Memutus pembubaran partai politik', 0], ['Menguji peraturan di bawah undang-undang terhadap undang-undang', 1], ['Melantik Presiden dan Wakil Presiden terpilih', 2], ['Memutus perselisihan hasil pemilu', 0]],
-    x: 'MK: memutus pembubaran partai dan sengketa hasil pemilu. MA: menguji peraturan di bawah UU. MPR: melantik Presiden dan Wakil Presiden.' },
-  { t: 'k', el: 'NKRI', q: 'Tentukan apakah setiap sikap berikut mendukung atau mengancam keutuhan NKRI!', C: ['Mendukung', 'Mengancam'],
-    S: [['Menyebarkan informasi yang benar dan membuka dialog antarkelompok', 0], ['Meneruskan hoaks bermuatan SARA di media sosial', 1], ['Mengutamakan kepentingan golongan di atas kepentingan bangsa', 1], ['Mengikuti festival budaya Nusantara yang mempertemukan berbagai daerah', 0]],
-    x: 'Informasi benar, dialog, dan festival budaya memperkuat persatuan. Hoaks SARA dan mengutamakan golongan memicu perpecahan.' },
-  { t: 'k', el: 'UUD 1945', q: 'Kelompokkan ketentuan Pasal 27 UUD NRI 1945 berikut!', C: ['Hak', 'Kewajiban', 'Hak sekaligus kewajiban'],
-    S: [['Mendapat pekerjaan dan penghidupan yang layak', 0], ['Menjunjung hukum dan pemerintahan', 1], ['Memperoleh kedudukan yang sama di dalam hukum', 0], ['Ikut serta dalam pembelaan negara', 2]],
-    x: 'Pekerjaan layak dan kedudukan yang sama adalah hak. Menjunjung hukum adalah kewajiban. Pembelaan negara adalah hak sekaligus kewajiban (ayat 3).' },
-
-  { t: 'a', el: 'Bhinneka Tunggal Ika', p: 'Bhinneka Tunggal Ika tidak menghilangkan perbedaan suku, agama, dan budaya.', r: 'Semboyan tersebut mempersatukan berbagai perbedaan dalam satu bangsa.', a: 0,
-    x: 'Pernyataan dan sebab benar, dan sebab menjelaskan pernyataan: perbedaan tetap ada, tetapi dipersatukan.' },
-  { t: 'a', el: 'UUD 1945', p: 'Perselisihan hasil pilkada diselesaikan oleh Mahkamah Konstitusi.', r: 'Mahkamah Konstitusi menguji peraturan di bawah undang-undang terhadap undang-undang.', a: 2,
-    x: 'Pernyataan benar. Sebab salah, karena pengujian peraturan di bawah UU adalah wewenang Mahkamah Agung.' },
-  { t: 'a', el: 'Pancasila', p: 'Pemilu merupakan sarana utama mewujudkan kedaulatan rakyat.', r: 'Indonesia adalah negara kepulauan.', a: 1,
-    x: 'Keduanya benar, tetapi negara kepulauan tidak menjelaskan mengapa pemilu mewujudkan kedaulatan rakyat.' },
-  { t: 'a', el: 'UUD 1945', p: 'Pembelaan negara hanya menjadi kewajiban anggota TNI.', r: 'Pasal 27 ayat (3) UUD NRI 1945 menyatakan setiap warga negara berhak dan wajib ikut serta dalam pembelaan negara.', a: 3,
-    x: 'Pernyataan salah karena pembelaan negara menjadi hak dan kewajiban setiap warga negara. Sebab benar.' },
-  { t: 'a', el: 'NKRI', p: 'Mahkamah Agung berwenang mengganti Presiden dalam masa jabatannya.', r: 'Mahkamah Agung adalah anggota MPR.', a: 4,
-    x: 'Keduanya salah. MA tidak berwenang mengganti Presiden, dan MA bukan anggota MPR.' }
+{"t": "k", "el": "NKRI", "lbl": "Benar / Salah", "q": "Sebuah video konflik antar kelompok beredar di media sosial dan memicu provokasi. Setelah ditelusuri, video tersebut ternyata merupakan potongan peristiwa lama yang disebarkan tanpa konteks. Pemerintah daerah, sekolah, dan tokoh masyarakat kemudian melakukan literasi digital serta dialog antarkelompok untuk mencegah konflik meluas. Tentukan Pernyataan berikut Benar atau Salah.", "C": ["Benar", "Salah"], "S": [["Memeriksa kebenaran informasi sebelum menyebarkannya merupakan bentuk menjaga keutuhan NKRI.", 0], ["Konflik akibat hoaks hanya dapat diselesaikan melalui pendekatan militerisme.", 1], ["Dialog antarkelompok dapat mencegah konflik sosial berkembang menjadi ancaman terhadap persatuan nasional.", 0]]},
+{"t": "m", "el": "Bhinneka Tunggal Ika", "lbl": "Pilihan ganda kompleks", "q": "Di suatu daerah multikultural terjadi penyebaran konten provokatif di media sosial yang mempertentangkan kelompok mayoritas dan minoritas. Pada saat yang sama, terdapat kesenjangan sosial dan ekonomi yang memicu rasa ketidakadilan di sebagian masyarakat. Berdasarkan kondisi tersebut, upaya yang paling tepat untuk mencegah ancaman terhadap keberagaman adalah! Tentukan jawaban yang benar, jawaban benar lebih dari satu.", "O": ["Meningkatkan literasi digital masyarakat agar mampu menyaring informasi provokatif.", "Membangun kebijakan yang memperkuat keadilan sosial dan mengurangi kesenjangan.", "Membatasi seluruh perbedaan pendapat agar tidak terjadi konflik di masyarakat.", "Mengutamakan kepentingan kelompok mayoritas dalam penyelesaian masalah sosial."], "a": [0, 1]},
+{"t": "m", "el": "Pancasila", "lbl": "Pilihan ganda kompleks", "q": "Sebuah wilayah sering mengalami banjir akibat saluran air yang tersumbat. Sebagian warga menganggap persoalan tersebut sepenuhnya merupakan tanggung jawab pemerintah. Kelompok warga lainnya mengusulkan kerja sama antara masyarakat, sekolah, dan pemerintah untuk membersihkan lingkungan serta memperbaiki sistem pengelolaan sampah. Tindakan yang paling mencerminkan implementasi nilai gotong royong adalah! Tentukan jawaban yang benar, jawaban benar lebih dari satu.", "O": ["Membentuk kegiatan bersama antara warga dan pemerintah untuk menyelesaikan persoalan lingkungan.", "Mengutamakan kepentingan kelompok yang memberikan kontribusi paling besar dalam kegiatan.", "Menyerahkan seluruh persoalan lingkungan kepada pemerintah karena pemerintah memiliki kewenangan.", "Membagi tanggung jawab sesuai kemampuan masing-masing pihak dalam menangani masalah."], "a": [0, 3]},
+{"t": "m", "el": "UUD 1945", "lbl": "Pilihan ganda kompleks", "q": "Dalam penyelenggaraan negara, pemerintah menjalankan berbagai kebijakan publik. DPR kemudian melakukan pengawasan terhadap pelaksanaan kebijakan tersebut. Apabila terdapat undang-undang yang dianggap bertentangan dengan UUD NRI Tahun 1945, persoalan tersebut dapat diajukan kepada Mahkamah Konstitusi. Berdasarkan kasus tersebut, pernyataan yang tepat adalah! Tentukan jawaban yang benar, jawaban benar lebih dari satu.", "O": ["DPR dapat membatalkan seluruh keputusan Presiden secara sepihak karena DPR merupakan lembaga negara tertinggi.", "Mahkamah Konstitusi berwenang menguji undang-undang terhadap UUD NRI Tahun 1945", "DPR dapat menjalankan fungsi pengawasan terhadap pemerintah sesuai kewenangan konstitusionalnya.", "Mahkamah Konstitusi dapat mengambil alih kewenangan Presiden apabila terdapat perbedaan pendapat."], "a": [1, 2]},
+{"t": "k", "el": "NKRI", "lbl": "Tepat / Tidak tepat", "q": "Pemerintah pusat menetapkan program pembangunan infrastruktur nasional yang harus dilaksanakan di berbagai daerah. Pemerintah daerah mendukung program tersebut, tetapi mengusulkan agar pelaksanaannya mempertimbangkan kondisi sosial, budaya, lingkungan, dan kebutuhan masyarakat setempat. Tentukan Pernyataan berikut Tepat atau Tidak tepat. No. 1 Pernyataan Otonomi daerah berarti pemerintah daerah bebas Tepat Tidak Tepat membuat kebijakan tanpa memperhatikan kepentingan nasional. 2 Pemerintah daerah dapat menyesuaikan pelaksanaan kebijakan dengan kondisi daerah selama tetap sesuai dengan ketentuan yang berlaku. 3 Koordinasi antara pemerintah pusat dan daerah diperlukan agar kepentingan nasional dan kebutuhan daerah dapat berjalan seimbang.", "C": ["Tepat", "Tidak tepat"], "S": [["Otonomi daerah berarti pemerintah daerah bebas membuat kebijakan tanpa memperhatikan kepentingan nasional.", 1], ["Pemerintah daerah dapat menyesuaikan pelaksanaan kebijakan dengan kondisi daerah selama tetap sesuai dengan ketentuan yang berlaku.", 0], ["Koordinasi antara pemerintah pusat dan daerah diperlukan agar kepentingan nasional dan kebutuhan daerah dapat berjalan seimbang.", 0]]},
+{"t": "s", "el": "Bhinneka Tunggal Ika", "lbl": "Pilihan ganda", "q": "Sebuah desa terdiri atas masyarakat dengan latar belakang budaya, agama dan kepercayaan yang beragam. Setiap tahun, masyarakat mengadakan kegiatan bersama untuk memperingati hari besar nasional. Pada tahun ini, muncul usulan agar seluruh rangkaian kegiatan menggunakan tradisi dari kelompok budaya yang paling dominan di desa tersebut. Sebagian warga menyetujui usulan tersebut karena dianggap lebih praktis. Namun, warga lain berpendapat bahwa kegiatan nasional seharusnya menjadi sarana untuk memperkuat persatuan dengan memberikan ruang bagi keberagaman budaya yang ada di masyarakat. Apabila Anda diminta menganalisis persoalan tersebut berdasarkan nilai Pancasila, kesimpulan yang paling tepat adalah ….", "O": ["budaya mayoritas dapat menjadi salah satu unsur kegiatan dengan tetap mempertimbangkan keberadaan budaya lain", "keberagaman budaya perlu dikelola melalui aturan bersama agar tidak mengganggu tujuan kegiatan nasional", "setiap kelompok budaya dapat menyelenggarakan bagian kegiatan sesuai kesepakatan agar keterlibatan warga lebih merata", "kelompok dengan jumlah anggota lebih sedikit perlu menyesuaikan bentuk partisipasinya dengan kondisi masyarakat setempat", "persatuan dapat diperkuat dengan menghargai keberagaman tanpa menghilangkan identitas masing-masing"], "a": 4},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Seorang siswa baru pindah ke sebuah sekolah. Ia memiliki latar belakang budaya yang berbeda dari sebagian besar siswa di kelasnya. Pada minggu pertama, beberapa siswa menjadikan cara berbicara dan kebiasaannya sebagai bahan candaan. Ketika ditegur, mereka beralasan bahwa candaan tersebut merupakan bentuk keakraban dan tidak dimaksudkan untuk menyakiti. Sebagian siswa memilih diam karena tidak ingin terlibat konflik. Namun, beberapa siswa lain meminta agar candaan dihentikan, menanyakan perasaan siswa baru tersebut, dan mengajak kelas menyepakati aturan interaksi yang melarang penghinaan terhadap identitas seseorang. Mereka juga mengajak siswa baru terlibat dalam kegiatan kelas, tanpa memaksanya meninggalkan kebiasaan budayanya. Tindakan yang paling kuat menunjukkan pengamalan nilai Pancasila adalah ….", "O": ["menghentikan candaan yang merendahkan, memulihkan rasa aman, dan membangun partisipasi yang setara tanpa menghapus identitas siswa baru", "meminta siswa baru mengikuti seluruh kebiasaan mayoritas agar proses penyesuaian berlangsung lebih cepat", "mengurangi candaan yang berpotensi menyinggung, tetapi tetap membiarkan siswa menentukan sendiri batas perilaku yang dapat diterima", "mengajak siswa baru mengikuti kegiatan kelas setelah ia memahami bahwa kebiasaan mayoritas menjadi aturan utama pergaulan", "memisahkan siswa baru dari kelompok yang mengejek agar konflik tidak meluas ke seluruh kelas"], "a": 0},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Pada sidang pertama BPUPK, beberapa tokoh menyampaikan gagasan mengenai dasar negara Indonesia yang akan merdeka. Meskipun masing-masing tokoh menggunakan istilah, susunan, dan penekanan yang berbeda, seluruh gagasan tersebut muncul dalam konteks pertanyaan yang sama, yaitu mengenai dasar filosofis yang dapat digunakan untuk membangun negara Indonesia. Muhammad Yamin, Soepomo, dan Soekarno memberikan rumusan yang tidak sepenuhnya sama. Namun, perbedaan tersebut tidak menyebabkan proses perumusan dasar negara berhenti. Sebaliknya, perbedaan gagasan menjadi bahan pertimbangan dalam mencari dasar negara yang dapat mengakomodasi kondisi masyarakat Indonesia yang majemuk. Berdasarkan proses tersebut, kesimpulan historis yang paling tepat adalah ….", "O": ["rumusan dasar negara Indonesia sejak awal telah disepakati secara bulat sehingga sidang BPUPK hanya berfungsi mengesahkan keputusan yang telah dibuat sebelumnya", "perbedaan rumusan para tokoh menunjukkan bahwa tidak ada kesamaan pemikiran mengenai dasar negara Indonesia", "proses perumusan Pancasila menunjukkan bahwa dasar negara lahir melalui pertukaran gagasan dan pencarian titik temu di antara berbagai pandangan", "rumusan salah satu tokoh harus dianggap paling benar sehingga gagasan tokoh lain tidak memiliki pengaruh dalam sejarah Pancasila", "perbedaan pendapat mengenai dasar negara membuktikan bahwa Indonesia seharusnya tidak memiliki dasar negara yang bersifat tetap"], "a": 2},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Dalam suatu masyarakat, dua kelompok memiliki kepentingan berbeda dalam menggunakan ruang bersama. Kelompok pertama memiliki jumlah anggota lebih besar dan membutuhkan waktu penggunaan lebih banyak. Kelompok kedua jumlahnya lebih sedikit, tetapi memiliki kegiatan yang hanya dapat dilakukan pada waktu tertentu. Masyarakat kemudian bermusyawarah bersama untuk menyusun aturan berdasarkan kapasitas ruang, kebutuhan penggunaan, waktu yang tersedia, dan fungsi kegiatan. Aturan tersebut tidak sepenuhnya memberikan waktu yang sama kepada setiap kelompok, tetapi memberikan kesempatan penggunaan berdasarkan pertimbangan yang dapat dijelaskan dan diterapkan secara konsisten. Kesimpulan yang paling tepat berdasarkan prinsip pelaksanaan HAM adalah ….", "O": ["keadilan dalam pelaksanaan hak selalu mengharuskan setiap kelompok memperoleh jumlah waktu penggunaan yang sama", "kelompok mayoritas seharusnya memperoleh bagian terbesar karena memiliki jumlah anggota yang lebih banyak", "penghormatan terhadap hak dapat diwujudkan melalui pengaturan yang mempertimbangkan kebutuhan secara objektif, meskipun hasil pembagiannya tidak selalu identik", "persamaan perlakuan hanya dapat dijamin dengan menghapus seluruh perbedaan kebutuhan antarkelompok", "hak kelompok minoritas hanya perlu dipertimbangkan apabila tidak mengurangi kepentingan kelompok mayoritas"], "a": 2},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Di sebuah sekolah, terdapat aturan yang melarang siswa membawa dan menggunakan ponsel selama proses pembelajaran berlangsung. Namun, suatu hari seorang guru menyita ponsel milik siswa yang kedapatan bermain saat pelajaran, lalu membuka isi pesan pribadi tanpa izin. Siswa tersebut merasa dipermalukan karena isi pesan pribadinya dibacakan di depan kelas. Kejadian ini memunculkan pertanyaan dari beberapa siswa: apakah tindakan guru tersebut melanggar hak asasi manusia? Berdasarkan pemahaman tentang HAM dan peraturan di lingkungan pendidikan, bagaimana seharusnya peristiwa ini dipahami dan disikapi?", "O": ["Guru berhak melakukan tindakan apa pun terhadap siswa demi menjaga disiplin", "Siswa tidak berhak protes karena ia melanggar aturan sekolah", "Guru melanggar hak privasi siswa dan harus diberi sanksi pidana", "Hak privasi siswa tetap harus dihormati meskipun siswa melanggar aturan, dan penyelesaian seharusnya dilakukan secara bijak dan edukatif", "Siswa sebaiknya tidak membawa ponsel agar tidak perlu menggunakan haknya"], "a": 3},
+{"t": "k", "el": "UUD 1945", "lbl": "Benar / Salah", "q": "Dalam studi perbandingan ketatanegaraan, seorang peneliti menemukan karakteristik berikut.\n\nP: Kepala negara berasal dari garis keturunan tertentu. Namun, kekuasaannya dibatasi konstitusi dan pemerintahan sehari-hari dijalankan oleh kabinet yang bertanggung jawab kepada parlemen.\nQ: Kepala negara dipilih secara berkala berdasarkan mekanisme elektoral. Kepala negara sekaligus memegang kekuasaan pemerintahan dan memiliki masa jabatan yang ditentukan konstitusi.\nR: Kepala negara berasal dari keluarga kerajaan, tetapi hampir seluruh kewenangan politiknya bersifat simbolis.\nS: Kepala negara dipilih melalui mekanisme politik tertentu, tetapi kedudukannya tidak diperoleh berdasarkan garis keturunan.\n\nSeorang peserta didik menyimpulkan bahwa negara P dan R pasti memiliki bentuk pemerintahan yang sama dengan Negara Q karena ketiganya memiliki kepala negara sebagai simbol kedaulatan negara. Tentukan kategori Benar atau Salah terhadap setiap pernyataan berikut berdasarkan konsep bentuk pemerintahan.", "C": ["Benar", "Salah"], "S": [["Kepala negara Negara P diperoleh berdasarkan garis keturunan, sehingga P termasuk monarki.", 0], ["Negara Q termasuk republik karena kepala negaranya tidak memperoleh jabatan berdasarkan garis keturunan.", 0], ["Negara R termasuk republik karena raja hanya menjalankan fungsi simbolis.", 1]]},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Sebuah negara mengalami perubahan konstitusi. Setelah perubahan tersebut, ditetapkan beberapa ketentuan:\n1. Presiden dipilih secara langsung oleh rakyat.\n2. Presiden tidak dapat membubarkan parlemen hanya karena kehilangan dukungan politik.\n3. Menteri diangkat dan diberhentikan oleh presiden.\n4. Kabinet tidak bertanggung jawab kepada parlemen, tetapi kepada presiden.\n5. Presiden dapat diberhentikan melalui mekanisme konstitusional tertentu apabila terbukti melakukan pelanggaran sebagaimana diatur konstitusi.\n6. Parlemen memiliki kewenangan mengawasi kebijakan pemerintah.\n7. Pergantian dukungan politik di parlemen tidak secara otomatis menyebabkan kabinet harus mengundurkan diri.\n8. Presiden berkedudukan sebagai kepala negara sekaligus kepala pemerintahan.\n\nSeorang analis menyatakan: \"Karena parlemen mempunyai fungsi pengawasan dan dapat terlibat dalam proses pemberhentian presiden, sistem tersebut sebenarnya merupakan sistem parlementer.\" Berdasarkan stimulus tersebut, penilaian yang paling tepat terhadap kesimpulan analis adalah ....", "O": ["Tepat, karena keterlibatan parlemen dalam mengawasi dan memberhentikan presiden menunjukkan bahwa kekuasaan eksekutif bergantung pada lembaga legislatif.", "Tepat sebagian, karena sistem tersebut memiliki karakter presidensial dalam hubungan presiden dan menteri, tetapi berubah menjadi parlementer ketika parlemen memperoleh kewenangan mengawasi pemerintahan.", "Kurang tepat, karena keberadaan fungsi pengawasan dan kewenangan parlemen dalam proses pemberhentian presiden tidak dengan sendirinya menentukan sistem pemerintahan; karakter utama justru terlihat dari hubungan pertanggungjawaban kabinet dan kedudukan presiden.", "Kurang tepat, karena sistem parlementer hanya dapat dikenali apabila presiden tidak dipilih secara langsung dan seluruh anggota kabinet berasal dari parlemen.", "Tidak tepat, karena dalam sistem presidensial parlemen tidak boleh memiliki kewenangan apa pun terhadap presiden, termasuk dalam proses pengawasan dan pemberhentian."], "a": 2},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Konflik bersenjata terjadi di sebuah negara yang menyebabkan ribuan warga sipil mengungsi. Dewan Keamanan PBB kemudian mendorong penyelesaian konflik melalui proses diplomasi dan misi pemeliharaan perdamaian. Indonesia ditawari dua pilihan. Pilihan 1: tidak terlibat karena konflik tersebut bukan merupakan ancaman langsung terhadap wilayah Indonesia. Pilihan 2: berpartisipasi dalam upaya perdamaian sesuai mandat internasional, mengirim personel dalam misi pemeliharaan perdamaian, serta melakukan diplomasi dengan tetap menghormati prinsip kedaulatan negara yang bersangkutan. Pemerintah memilih pilihan kedua. Alasan paling fundamental yang menjelaskan keputusan Indonesia tersebut adalah ...", "O": ["Indonesia perlu mengambil posisi aktif dalam konflik internasional karena prinsip politik luar negeri bebas aktif mengharuskan Indonesia selalu berada di pihak yang sedang menghadapi agresi.", "Indonesia dapat terlibat apabila keterlibatan tersebut memperoleh legitimasi internasional, karena penyelesaian konflik antarnegara pada dasarnya merupakan kewenangan komunitas internasional.", "Indonesia berkepentingan menjaga stabilitas internasional karena ketidakstabilan di suatu kawasan berpotensi memengaruhi kepentingan nasional dan hubungan antarnegara.", "Keterlibatan Indonesia merupakan pengejawantahan amanat konstitusi untuk ikut melaksanakan ketertiban dunia berdasarkan kemerdekaan, perdamaian abadi, dan keadilan sosial, yang dijalankan melalui politik luar negeri bebas aktif.", "Indonesia perlu menghindari keterlibatan langsung dan cukup memberikan dukungan diplomatik karena prinsip penghormatan kedaulatan membatasi negara untuk berperan dalam konflik yang terjadi di luar wilayahnya."], "a": 3},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Perkembangan teknologi informasi menyebabkan masyarakat semakin mudah memperoleh gagasan politik, ekonomi, dan sosial dari berbagai negara. Sebagian gagasan tersebut menekankan kebebasan individu secara absolut, sementara gagasan lainnya menempatkan kepentingan kelompok di atas kepentingan individu. Di sebuah sekolah, muncul perdebatan. Sebagian siswa berpendapat bahwa karena Pancasila merupakan ideologi negara, seluruh gagasan dari luar negeri harus ditolak. Kelompok lain berpendapat bahwa seluruh gagasan dari luar harus diterima karena keterbukaan merupakan konsekuensi perkembangan globalisasi. Guru kemudian meminta siswa menganalisis persoalan tersebut berdasarkan kedudukan Pancasila sebagai ideologi terbuka. Kesimpulan yang paling tepat dari narasi di atas adalah ...", "O": ["Pancasila sebagai ideologi terbuka memungkinkan nilai dasarnya ditafsirkan secara kontekstual sehingga gagasan dari luar dapat diterima selama tidak menimbulkan konflik sosial secara langsung.", "Pancasila sebagai ideologi terbuka menempatkan masyarakat sebagai pihak yang menentukan relevansi setiap gagasan asing, sedangkan negara tidak perlu memberikan batasan selama prosesnya berlangsung demokratis.", "Pancasila sebagai ideologi terbuka memungkinkan bangsa Indonesia mengembangkan penerapan nilai Pancasila sesuai perubahan zaman, sekaligus melakukan penyaringan terhadap gagasan baru berdasarkan nilai dasar yang tetap menjadi landasan.", "Pancasila sebagai ideologi terbuka memberikan ruang bagi perubahan unsur-unsur ideologis apabila perubahan tersebut dipandang lebih sesuai dengan perkembangan masyarakat dan dinamika global.", "Pancasila sebagai ideologi terbuka menunjukkan bahwa Pancasila dapat berdialog dengan berbagai ideologi lain, sehingga penerapannya perlu menyesuaikan gagasan yang paling efektif dalam menjawab persoalan masyarakat."], "a": 2},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Dalam kehidupan berbangsa dan bernegara yang berdasarkan Pancasila, ketaatan terhadap hukum bukan sekadar kewajiban formal, melainkan perwujudan kesadaran moral dan tanggung jawab warga negara. Seorang siswa SMA melihat temannya yang merupakan anak pejabat daerah melakukan pelanggaran lalu lintas berulang kali tanpa ditindak oleh aparat karena “hubungan kekeluargaan”. Di sisi lain, siswa tersebut juga mengetahui bahwa di lingkungan tempat tinggalnya banyak warga biasa yang tetap ditindak tegas meskipun pelanggarannya relatif ringan. Berdasarkan analisis terhadap nilai-nilai Pancasila dan prinsip negara hukum, sikap paling tepat yang mencerminkan perilaku taat hukum yang bersifat substantif (bukan sekadar formal) adalah…", "O": ["Melaporkan teman tersebut kepada orang tua agar diberi sanksi moral di rumah, karena urusan hukum sebaiknya diselesaikan secara kekeluargaan terlebih dahulu agar tidak mempermalukan keluarga pejabat.", "Diam saja dan menganggap bahwa penegakan hukum memang tidak pernah sepenuhnya adil, sehingga yang penting diri sendiri tidak ikut melanggar agar terhindar dari masalah.", "Mengingatkan teman tersebut secara pribadi sambil menjelaskan bahwa ketaatan hukum harus berlaku sama bagi semua orang tanpa memandang status sosial, kemudian jika peringatan diabaikan, melaporkan pelanggaran tersebut melalui mekanisme resmi yang tersedia.", "Menyebarkan informasi pelanggaran tersebut di media sosial agar masyarakat luas mengetahui ketidakadilan penegakan hukum dan memberikan tekanan publik kepada aparat.", "Menunggu sampai ada kasus yang lebih besar agar laporan yang disampaikan memiliki dampak lebih kuat dan mendapat perhatian media serta lembaga pengawas."], "a": 2},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Seorang warga negara yang aktif di organisasi kemasyarakatan menemukan bahwa di desanya terdapat praktik pungutan liar yang dilakukan oleh oknum aparat desa dengan dalih “biaya administrasi tambahan” untuk pengurusan surat-surat penting. Praktik tersebut sudah berlangsung lama dan sebagian warga menerima saja karena takut proses pengurusan menjadi lebih lama. Warga tersebut memahami bahwa perilaku taat hukum tidak hanya berarti menaati peraturan yang ada, tetapi juga berarti menolak segala bentuk penyimpangan yang merusak tatanan hukum. Tindakan yang paling mencerminkan penerapan perilaku taat hukum secara aktif dan bertanggung jawab adalah…", "O": ["Mengajak warga lain untuk menolak membayar pungutan liar secara bersama-sama sambil tetap mengurus surat melalui jalur resmi, kemudian melaporkan praktik tersebut kepada pihak berwenang di tingkat yang lebih tinggi.", "Membayar pungutan tersebut demi kelancaran pengurusan surat, namun secara diam-diam mendokumentasikan bukti untuk diserahkan kepada lembaga antikorupsi di kemudian hari.", "Menghindari pengurusan surat di desa tersebut dan memilih mengurus ke kecamatan atau kabupaten meskipun biayanya lebih mahal dan prosesnya lebih lama.", "Menyampaikan keluhan secara lisan kepada kepala desa agar masalah diselesaikan secara internal tanpa melibatkan pihak luar yang dapat memperkeruh suasana.", "Membiarkan praktik tersebut berlangsung sambil menunggu adanya inspeksi mendadak dari pemerintah pusat atau daerah yang lebih tinggi."], "a": 0},
+{"t": "m", "el": "UUD 1945", "lbl": "Pilihan ganda kompleks", "q": "Proses amandemen UUD Negara Republik Indonesia Tahun 1945 yang dilakukan melalui empat kali perubahan (1999–2002) merupakan upaya sistematis untuk memperbaiki struktur ketatanegaraan agar lebih demokratis, akuntabel, dan sesuai dengan semangat reformasi. Beberapa perubahan mendasar yang terjadi antara lain penguatan sistem checks and balances, pengaturan ulang lembaga-lembaga negara, serta penegasan hak asasi manusia. Berdasarkan analisis terhadap substansi perubahan tersebut, pernyataan yang benar mengenai hasil amandemen UUD NRI Tahun 1945 adalah! Tentukan jawaban yang benar, jawaban benar lebih dari satu.", "O": ["Amandemen menghapus sama sekali kewenangan Presiden dalam membentuk undang-undang dan menyerahkan seluruh proses legislasi kepada DPR secara mutlak tanpa melibatkan Presiden.", "Amandemen memperkuat posisi DPR sebagai lembaga legislatif dengan memberikan kewenangan yang lebih besar dalam pembahasan dan pengesahan undang-undang, sekaligus tetap mempertahankan peran Presiden dalam proses legislasi.", "Amandemen menghapus lembaga MPR sebagai lembaga tertinggi negara dan mengubahnya menjadi lembaga tinggi negara yang kedudukannya sejajar dengan lembaga tinggi negara lainnya.", "Amandemen mempertahankan MPR sebagai lembaga tertinggi negara yang memiliki kewenangan tidak terbatas, termasuk kewenangan untuk menetapkan GBHN dan memilih Presiden serta Wakil Presiden.", "Amandemen menambahkan bab khusus mengenai Hak Asasi Manusia yang sebelumnya tidak diatur secara rinci dalam UUD 1945 sebelum amandemen."], "a": [1, 2]},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Pada masa Orde Lama, Indonesia mengalami beberapa kali pergantian konstitusi yang mencerminkan dinamika politik dan pencarian bentuk negara yang paling sesuai dengan kondisi bangsa saat itu. Setelah kemerdekaan, Indonesia sempat memberlakukan UUD 1945, kemudian beralih ke Konstitusi RIS 1949, dilanjutkan dengan UUDS 1950, dan akhirnya kembali ke UUD 1945 melalui sebuah keputusan politik yang sangat penting. Keputusan tersebut tidak hanya mengubah dasar hukum negara, tetapi juga membawa konsekuensi besar terhadap sistem pemerintahan dan hubungan antarlembaga negara. Berdasarkan analisis sejarah ketatanegaraan, pernyataan yang paling tepat mengenai pemberlakuan konstitusi pada masa Orde Lama adalah…", "O": ["Kembalinya Indonesia kepada UUD 1945 melalui Dekrit Presiden 5 Juli 1959 disebabkan oleh kegagalan Konstituante dalam menyusun undang-undang dasar baru, sehingga Presiden mengambil langkah untuk mengakhiri ketidakpastian konstitusional dan memperkuat sistem demokrasi terpimpin.", "Pemberlakuan UUDS 1950 merupakan bentuk penolakan total terhadap sistem federal dan sekaligus menandai dimulainya sistem pemerintahan presidensial yang kuat di bawah kendali Presiden Soekarno.", "Konstitusi RIS 1949 diberlakukan sebagai hasil kesepakatan internal bangsa Indonesia semata tanpa adanya pengaruh dari perjanjian internasional, dan sistem federal yang dianutnya bertahan hingga akhir masa Orde Lama.", "Dekrit Presiden 5 Juli 1959 justru memperkuat kedudukan Konstituante dan memberikan waktu tambahan bagi lembaga tersebut untuk menyelesaikan penyusunan undang-undang dasar baru.", "Sepanjang masa Orde Lama, Indonesia hanya mengenal dua konstitusi, yaitu UUD 1945 dan UUDS 1950, sedangkan Konstitusi RIS hanya bersifat sementara dan tidak pernah benar-benar diberlakukan."], "a": 0},
+{"t": "s", "el": "UUD 1945", "lbl": "Pilihan ganda", "q": "Pada masa Orde Baru, pemerintah menempatkan UUD 1945 pada posisi yang sangat istimewa dan menjadikannya sebagai satu-satunya dasar hukum yang tidak boleh diganggu gugat. Sikap ini berbeda jauh dengan dinamika konstitusi pada masa sebelumnya. Pemerintah Orde Baru menekankan pentingnya stabilitas politik dan pembangunan ekonomi, sehingga setiap upaya untuk mengubah atau bahkan sekadar menafsirkan ulang UUD 1945 dianggap berpotensi mengganggu ketertiban nasional. Berdasarkan pemahaman terhadap karakteristik ketatanegaraan masa Orde Baru, pernyataan yang paling tepat adalah…", "O": ["Pemerintah Orde Baru secara terbuka mendorong pembahasan amandemen UUD 1945 sejak awal pemerintahan untuk menyesuaikan konstitusi dengan kebutuhan pembangunan jangka panjang.", "UUD 1945 pada masa Orde Baru diperlakukan sebagai dokumen yang sakral dan final, sehingga tidak dilakukan perubahan substansial terhadap teks konstitusi sepanjang periode tersebut.", "Meskipun menekankan kesakralan UUD 1945, pemerintah Orde Baru tetap melakukan beberapa kali amandemen terbatas untuk memperkuat posisi lembaga-lembaga tinggi negara.", "Sikap pemerintah Orde Baru terhadap UUD 1945 justru membuka ruang yang lebih luas bagi penafsiran konstitusi melalui keputusan-keputusan MPR yang bersifat mengikat.", "Pemberlakuan UUD 1945 pada masa Orde Baru disertai dengan penghapusan total kewenangan MPR dalam menetapkan garis-garis besar haluan negara."], "a": 1},
+{"t": "s", "el": "NKRI", "lbl": "Pilihan ganda", "q": "Hubungan antara pemerintah pusat dan pemerintah daerah di Indonesia diatur dalam kerangka negara kesatuan yang mengakui adanya otonomi daerah. Meskipun daerah diberikan kewenangan untuk mengatur dan mengurus urusan pemerintahannya sendiri, tetap terdapat urusan-urusan yang menjadi kewenangan mutlak pemerintah pusat. Dalam praktiknya, pelaksanaan otonomi daerah sering menimbulkan ketegangan ketika terjadi perbedaan penafsiran mengenai batas-batas kewenangan. Seorang kepala daerah mengeluarkan peraturan daerah yang mengatur pengelolaan sumber daya alam strategis di wilayahnya, namun peraturan tersebut dinilai bertentangan dengan kebijakan nasional di bidang energi dan sumber daya mineral. Berdasarkan prinsip hubungan pusat dan daerah menurut UUD NRI Tahun 1945 dan peraturan perundang-undangan terkait, analisis yang paling tepat adalah…", "O": ["Peraturan daerah tersebut sah dan mengikat karena otonomi daerah memberikan kewenangan penuh kepada pemerintah daerah untuk mengatur seluruh sumber daya yang berada di wilayahnya tanpa campur tangan pusat.", "Pemerintah pusat berwenang membatalkan atau menyatakan peraturan daerah tersebut tidak berlaku apabila terbukti bertentangan dengan kepentingan nasional dan peraturan perundang-undangan yang lebih tinggi.", "Sengketa kewenangan semacam ini hanya dapat diselesaikan melalui referendum di tingkat daerah untuk mengetahui kehendak rakyat setempat.", "Kepala daerah dapat mempertahankan peraturan daerah tersebut selama mendapat dukungan mayoritas anggota DPRD, karena DPRD merupakan representasi kedaulatan rakyat di daerah.", "Hubungan pusat dan daerah bersifat koordinatif semata, sehingga pemerintah pusat tidak memiliki kewenangan hukum untuk membatalkan produk hukum daerah."], "a": 1},
+{"t": "k", "el": "NKRI", "lbl": "Benar / Salah", "q": "Pasal 1 ayat (1) UUD NRI Tahun 1945 menegaskan bahwa Negara Indonesia ialah Negara Kesatuan yang berbentuk Republik. Sebagai sebuah republik, pemerintahan dijalankan oleh mandat dan kedaulatan rakyat melalui pemilihan umum, bukan berdasarkan garis keturunan seperti pada sistem monarki. Namun, dalam dinamika politik modern, kerap muncul kecenderungan suksesi kepemimpinan yang berpusat pada hubungan kekerabatan figur publik yang memanfaatkan celah legalitas dari prosedur demokrasi. Tentukan Pernyataan Benar atau Salah dari setiap pernyataan berikut terkait keselarasan praktik tersebut dengan esensi bentuk pemerintahan republik!", "C": ["Benar", "Salah"], "S": [["Secara konstitusional, praktik politik kekerabatan tidak otomatis membatalkan bentuk republik selama kandidat tersebut tetap dipilih melalui mekanisme pemilu yang sah secara hukum.", 0], ["Esensi dari bentuk negara republik mengharuskan adanya larangan mutlak bagi keluarga pejabat negara untuk menggunakan hak pilih maupun dipilih dalam semua tingkatan pemilu.", 1], ["Konsentrasi kekuasaan publik secara terus-menerus pada lingkar kekerabatan tertentu berpotensi mengikis nilai keadilan dan kesetaraan hak politik warga negara yang menjadi ruh pemerintahan republik.", 0]]},
+{"t": "k", "el": "UUD 1945", "lbl": "Benar / Salah", "q": "Dalam sistem pemerintahan presidensial di Indonesia pasca-amandemen, Presiden berkedudukan sebagai kepala negara sekaligus kepala pemerintahan yang tidak bertanggung jawab kepada Dewan Perwakilan Rakyat (DPR). Presiden tidak dapat membekukan atau membubarkan DPR. Sebaliknya, posisi Presiden tidak berada di bawah kendali mutlak legislatif. Hubungan kedua lembaga ini didesain saling mengimbangi (checks and balances), terutama dalam proses legislasi, penyusunan anggaran, serta pengawasan pemerintahan. Tentukan Pernyataan Benar atau Salah dari setiap pernyataan berikut mengenai implementasi sistem presidensial berdasarkan mekanisme checks and balances tersebut!", "C": ["Benar", "Salah"], "S": [["Untuk menjamin stabilitas pemerintahan presidensial, Presiden memiliki hak prerogatif penuh untuk menetapkan APBN sepihak apabila DPR menolak usulan anggaran dari pemerintah.", 1], ["Pengawasan DPR terhadap eksekutif tidak dapat berujung pada pemberhentian Presiden secara langsung semata-mata karena alasan politik, melainkan harus melalui pembuktian pelanggaran hukum di Mahkamah Konstitusi.", 0], ["Presiden memegang kekuasaan membentuk undang-undang, namun setiap rancangan undang-undang wajib dibahas dan mendapat persetujuan bersama DPR agar dapat disahkan.", 0]]},
+{"t": "k", "el": "Pancasila", "lbl": "Benar / Salah", "q": "Pasca-pemilihan umum, kontestasi politik sering kali menyisakan polarisasi yang tajam di tengah masyarakat. Tensi elektoral antar pendukung kerap berlanjut di ruang publik, mengancam integrasi dan harmoni sosial. Dalam merespons dinamika ini, elit politik di Indonesia sering kali mengedepankan rekonsiliasi dengan membangun koalisi pemerintahan yang besar (broad coalition). Langkah ini bertujuan meredam ketegangan, meskipun di sisi lain kerap dikritik karena dianggap mematikan fungsi oposisi sebagai instrumen pengawasan kekuasaan yang esensial dalam iklim demokrasi prosedural. Tentukan Pernyataan Benar atau Salah dari setiap pernyataan berikut terkait dinamika politik demokrasi di Indonesia berdasarkan ilustrasi tersebut!", "C": ["Benar", "Salah"], "S": [["Upaya rekonsiliasi elit pasca-pemilu mencerminkan asas mufakat kekeluargaan dalam Demokrasi Pancasila yang lebih mengedepankan integrasi nasional dibandingkan konfrontasi politik secara terus-menerus.", 0], ["Ketiadaan kekuatan oposisi mayoritas di parlemen merupakan bentuk pengingkaran konstitusi secara mutlak, karena UUD NRI Tahun 1945 mewajibkan adanya partai penyeimbang dalam pemerintahan.", 1], ["Demokrasi Pancasila memandang bahwa konflik politik selalu harus diakhiri dengan dominasi mutlak pihak mayoritas pemenang pemilu untuk menekan aspirasi politik minoritas demi stabilitas negara.", 1]]},
+{"t": "s", "el": "NKRI", "lbl": "Pilihan ganda", "q": "Di tengah eskalasi konflik geopolitik yang melibatkan adu kekuatan militer aliansi besar di sebuah kawasan tertentu, rantai pasok ekonomi global mengalami guncangan hebat. Sejumlah negara maju mulai memberlakukan embargo blok secara sepihak dan menekan negara-negara berkembang untuk ikut menjatuhkan sanksi terkoordinasi terhadap satu kubu. Dalam forum Perserikatan Bangsa-Bangsa (PBB), diplomasi Indonesia tetap konsisten menyerukan gencatan senjata untuk alasan kemanusiaan, mengirimkan bantuan independen, serta menolak menandatangani resolusi pemihakan militer yang diusung oleh salah satu blok hegemoni tersebut. Penerapan prinsip politik luar negeri bebas aktif yang paling esensial ditunjukkan oleh langkah diplomasi Indonesia dalam situasi tersebut karena....", "O": ["Indonesia berupaya memonopoli jalur negosiasi ekonomi bilateral dengan kedua belah pihak secara eksklusif untuk mempercepat pemulihan neraca perdagangan nasional", "Indonesia menggunakan sikap diam (netralitas pasif) sebagai strategi untuk menghindari risiko dijatuhkannya sanksi ekonomi silang oleh negara-negara penganut aliansi", "Indonesia menjadikan krisis geopolitik tersebut sebagai landasan tawar-menawar strategis guna memperkuat keanggotannya dalam pakta pertahanan gabungan Asia-Pasifik", "Indonesia memprioritaskan ketertiban dan kemanusiaan universal dalam penyelesaian konflik, tanpa harus menundukkan kedaulatannya pada agenda politik atau blok pertahanan manapun", "Indonesia menggunakan instrumen keketuaan internasionalnya untuk memaksa negara-negara sekutu mencabut semua sanksi ekonomi demi kelancaran logistik negara berkembang"], "a": 3},
+{"t": "s", "el": "Pancasila", "lbl": "Pilihan ganda", "q": "Perkembangan pesat teknologi digital dan media sosial telah memfasilitasi gelombang ideologi transnasional seperti kebebasan tanpa batas, radikalisme, dan individualisme komersial yang masif masuk ke ruang hidup generasi muda Indonesia. Fenomena pergeseran gaya hidup ini dikhawatirkan dapat mengikis ikatan komunalistik, nilai toleransi, dan gotong royong yang menjadi ciri khas bangsa. Sebagai ideologi terbuka, Pancasila sesungguhnya tidak didesain sebagai doktrin tertutup yang antimodernitas, melainkan gagasan luwes yang berinteraksi secara dinamis dengan perkembangan peradaban global. Berdasarkan ilustrasi tersebut, tantangan dalam mengimplementasikan kedudukan Pancasila sebagai ideologi terbuka ditunjukkan dengan...", "O": ["kewajiban mutlak pemerintah untuk memutus jaringan akses teknologi informasi dari luar negeri guna melindungi kemurnian budaya lokal masyarakat", "urgensi mereaktualisasi nilai instrumen dan praksis Pancasila melalui penguatan literasi digital, tanpa harus mengubah esensi nilai dasar Ketuhanan hingga Keadilan Sosial", "kebebasan tanpa batas bagi masyarakat untuk mengadopsi struktur hukum dari negara penganut ideologi liberal sebagai bentuk adaptasi intelektual", "keharusan amandemen nilai-nilai dasar Pancasila setiap dekade agar maknanya selalu sejalan dengan nilai-nilai hak asasi manusia yang ditetapkan oleh organisasi internasional", "pengubahan seluruh sistem perundang-undangan nasional menjadi hukum adat kaku untuk memberikan efek jera kepada generasi muda pengguna teknologi asing."], "a": 1}
 ];
 
 /* ---------- start ---------- */
-var KEY = 'kuis-ppkn-v2', AVS = ['🦅', '🐯', '🐘', '🦜', '🐒', '🐢'], av = AVS[0], pref = {};
+/*AV*/
+var BODY = 'M14 100Q18 84 50 82Q82 84 86 100Z', HOOD = 'M22 54Q20 12 50 10Q80 12 78 54Q74 28 50 26Q26 28 22 54Z';
+var AVD = {
+  a1: { n: 'Ksatria', bg: '#DCE6F2', h: '#8D5B3A', e: '#2E86DE', back: '',
+    body: '<path d="' + BODY + '" fill="#90A4AE"/><circle cx="20" cy="94" r="9" fill="#B0BEC5" stroke="#546E7A" stroke-width="2"/><circle cx="80" cy="94" r="9" fill="#B0BEC5" stroke="#546E7A" stroke-width="2"/><path d="M36 83Q50 95 64 83" fill="none" stroke="#FFC107" stroke-width="3"/>',
+    front: '<path d="M20 46Q18 8 50 6Q82 8 80 46L72 44Q50 28 28 44Z" fill="#B0BEC5" stroke="#546E7A" stroke-width="2"/><path d="M28 44Q50 28 72 44" fill="none" stroke="#FFC107" stroke-width="2.5"/><path d="M50 6V32" stroke="#78909C" stroke-width="3"/><path d="M50 7Q42 -2 56 -3Q60 2 52 9Z" fill="#E53935"/><path d="M20 46L22 66L30 60L28 44Z" fill="#90A4AE" stroke="#546E7A" stroke-width="1.5"/><path d="M80 46L78 66L70 60L72 44Z" fill="#90A4AE" stroke="#546E7A" stroke-width="1.5"/>', x: '' },
+  a2: { n: 'Penyihir', bg: '#E8E0F8', h: '#7E9BEA', e: '#AB47BC',
+    back: '<path d="M20 50Q18 18 50 16Q82 18 80 50L85 90L15 90Z" fill="#7E9BEA"/>',
+    body: '<path d="' + BODY + '" fill="#5E35B1"/><path d="M36 83Q50 95 64 83" fill="none" stroke="#FFD54F" stroke-width="3"/><circle cx="50" cy="93" r="3" fill="#FFD54F"/>',
+    front: '<ellipse cx="50" cy="30" rx="35" ry="8" fill="#4527A0"/><path d="M27 30Q44 26 46 12Q48 4 57 2Q57 18 73 30Q50 35 27 30Z" fill="#6A3FC4"/><path d="M31 28Q50 34 69 28" fill="none" stroke="#FFD54F" stroke-width="3"/><path d="M50 15l1.8 4 4.2.4-3.2 2.8 1 4.2-3.8-2.3-3.8 2.3 1-4.2-3.2-2.8 4.2-.4z" fill="#FFD54F"/>', x: '' },
+  a3: { n: 'Pemanah', bg: '#E3F4DA', h: '#6D4C2B', e: '#43A047',
+    back: '<path d="M18 52Q16 8 50 6Q84 8 82 52L86 86L14 86Z" fill="#2E7D32"/>',
+    body: '<path d="' + BODY + '" fill="#558B2F"/><path d="M22 100L74 84" stroke="#6D4C41" stroke-width="5"/><path d="M76 82L90 64" stroke="#8D6E63" stroke-width="3" stroke-linecap="round"/><path d="M85 74L91 63L82 66Z" fill="#E53935"/>',
+    front: '<path d="' + HOOD + '" fill="#388E3C"/>', x: '' },
+  a4: { n: 'Penyembuh', bg: '#FFF6DC', h: '#F2D27A', e: '#26A69A',
+    back: '<path d="M18 52Q16 8 50 6Q84 8 82 52L85 88L15 88Z" fill="#F5F5F5" stroke="#CFD8DC" stroke-width="1.5"/>',
+    body: '<path d="' + BODY + '" fill="#FAFAFA" stroke="#CFD8DC" stroke-width="1.5"/><path d="M36 83Q50 95 64 83" fill="none" stroke="#FFC107" stroke-width="3"/><rect x="47" y="89" width="6" height="11" fill="#FFC107"/><rect x="43" y="92" width="14" height="4" fill="#FFC107"/>',
+    front: '<path d="' + HOOD + '" fill="#FFFFFF" stroke="#CFD8DC" stroke-width="1.5"/><path d="M31 31Q50 22 69 31" fill="none" stroke="#FFC107" stroke-width="3"/><circle cx="50" cy="26" r="3.2" fill="#26C6DA" stroke="#FFC107"/>', x: '' },
+  a5: { n: 'Pengintai', bg: '#E4E8EC', h: '#212121', e: '#FFB300',
+    back: '<path d="M18 52Q16 8 50 6Q84 8 82 52L86 90L14 90Z" fill="#37474F"/>',
+    body: '<path d="' + BODY + '" fill="#455A64"/><path d="M30 78Q50 92 70 78L73 87Q50 100 27 87Z" fill="#B71C1C"/>',
+    front: '<path d="' + HOOD + '" fill="#455A64"/>', x: '<path d="M62 60l6 7" stroke="#C0605A" stroke-width="1.6" stroke-linecap="round"/>' },
+  a6: { n: 'Pejuang', bg: '#FFE3D3', h: '#D84315', e: '#795548',
+    back: '<path d="M20 50Q18 20 50 18Q82 20 80 50L84 76L16 76Z" fill="#D84315"/>',
+    body: '<path d="' + BODY + '" fill="#6D4C41"/><path d="M28 83Q50 98 72 83L76 91Q50 106 24 91Z" fill="#FFF3E0"/>',
+    front: '<path d="M22 30Q4 28 5 6Q15 18 27 23Z" fill="#FFF3E0" stroke="#BCAAA4" stroke-width="1.5"/><path d="M78 30Q96 28 95 6Q85 18 73 23Z" fill="#FFF3E0" stroke="#BCAAA4" stroke-width="1.5"/><path d="M21 46Q19 14 50 12Q81 14 79 46L72 42Q50 30 28 42Z" fill="#8D6E63" stroke="#5D4037" stroke-width="2"/><path d="M30 38Q50 28 70 38" fill="none" stroke="#FFC107" stroke-width="2.5"/>',
+    x: '<path d="M27 62h9M64 62h9" stroke="#C62828" stroke-width="2.2" stroke-linecap="round"/>' }
+};
+function avSVG(id) {
+  var d = AVD[id], sk = '#FFE3CC';
+  function eye(x) {
+    return '<g transform="translate(' + x + ' 56)"><ellipse rx="8" ry="10" fill="#fff"/><ellipse rx="6" ry="8.5" fill="' + d.e + '"/><ellipse rx="3" ry="4.6" fill="#1a1a2e"/>' +
+      '<circle cx="-2.2" cy="-3.2" r="2.2" fill="#fff"/><circle cx="2" cy="3" r="1.1" fill="#fff"/><path d="M-9 -4Q0 -13 9 -4" fill="none" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/></g>';
+  }
+  return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Avatar ' + d.n + '"><rect width="100" height="100" fill="' + d.bg + '"/>' +
+    d.back + '<rect x="44" y="72" width="12" height="13" fill="' + sk + '"/>' + d.body +
+    '<ellipse cx="50" cy="50" rx="26" ry="28" fill="' + sk + '"/>' +
+    '<path d="M23 50Q20 16 50 14Q80 16 77 50L70 38L63 49L55 36L46 49L38 37L31 49Z" fill="' + d.h + '"/>' +
+    d.front + eye(38) + eye(62) +
+    '<ellipse cx="31" cy="65" rx="5" ry="3" fill="#FF8A9B" opacity=".5"/><ellipse cx="69" cy="65" rx="5" ry="3" fill="#FF8A9B" opacity=".5"/>' +
+    '<path d="M45 70Q50 75 55 70" fill="none" stroke="#9c3f4a" stroke-width="1.8" stroke-linecap="round"/>' + d.x + '</svg>';
+}
+/*/AV*/
+function avEl(id, c) {
+  var e = h('span', { class: 'ava ' + (c || '') });
+  if (AVD[id]) e.innerHTML = avSVG(id); else e.textContent = id || '🙂';
+  return e;
+}
+var KEY = 'kuis-ppkn-v2', AVS = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6'], av = AVS[0], pref = {};
 try { pref = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
 if (pref.a && AVS.indexOf(pref.a) >= 0) av = pref.a;
 $('#nm').value = pref.n || '';
 AVS.forEach(function (a) {
-  var i = h('input', { type: 'radio', name: 'av', value: a, 'aria-label': 'Avatar ' + a, onchange: function () { av = a; } });
+  var i = h('input', { type: 'radio', name: 'av', value: a, 'aria-label': 'Avatar ' + AVD[a].n, onchange: function () { av = a; } });
   if (a === av) i.checked = true;
-  $('#avs').append(h('label', { class: 'av' }, i, h('span', {}, a)));
+  $('#avs').append(h('label', { class: 'av' }, i, h('span', {}, avEl(a))));
 });
 function show(id) { ['start', 'quiz', 'result'].forEach(function (s) { $('#s-' + s).hidden = s !== id; }); window.scrollTo(0, 0); }
 board($('#lb-start'));
@@ -237,7 +267,7 @@ function start() {
   try { localStorage.setItem(KEY, JSON.stringify({ n: ($('#nm').value || '').trim(), a: av })); } catch (e) {}
   var ids = Q.map(function (_, i) { return i; });
   S = { name: nm, av: av, order: $('#shuf').checked ? shuffle(ids) : ids, i: 0, score: 0, base: 0, streak: 0, best: 0, full: 0, log: [], done: false };
-  $('#q-name').textContent = av + ' ' + nm;
+  $('#q-name').replaceChildren(avEl(av, 'sm'), ' ' + nm);
   show('quiz'); head(); renderQ();
 }
 function head() {
@@ -248,18 +278,31 @@ function head() {
 function ready(q) {
   if (q.t === 'j' || q.t === 'k') return S.ans.every(function (v) { return v !== null; });
   if (q.t === 'i') return !!(S.ans && S.ans.trim());
+  if (q.t === 'm') return S.ans.length > 0;
   return S.ans !== null;
 }
 function upd() { UI.submit.disabled = !ready(Q[S.order[S.i]]); }
 
+var LIMIT = 60, tick = null;
+function stopTimer() { clearInterval(tick); tick = null; }
+function startTimer() {
+  stopTimer(); var end = Date.now() + LIMIT * 1000;
+  function step() {
+    var left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+    UI.tt.textContent = '⏱ ' + left + ' dtk'; UI.tb.style.width = (left / LIMIT * 100) + '%'; UI.tb.className = left <= 10 ? 'low' : '';
+    if (left <= 0) { stopTimer(); if (!S.done) check(true); }
+  }
+  step(); tick = setInterval(step, 250);
+}
 function renderQ() {
   var q = Q[S.order[S.i]], c = $('#qcard'); c.innerHTML = ''; S.done = false;
-  S.ans = q.t === 'j' ? q.L.map(function () { return null; }) : q.t === 'k' ? q.S.map(function () { return null; }) : null;
+  S.ans = q.t === 'j' ? q.L.map(function () { return null; }) : q.t === 'k' ? q.S.map(function () { return null; }) : q.t === 'm' ? [] : null;
   UI = { rows: [], opts: [] };
-  c.append(h('div', { class: 'chips' }, h('span', { class: 'qno' }, 'Soal ' + (S.i + 1) + '/' + S.order.length), h('span', { class: 'chip k' }, q.el), h('span', { class: 'chip' }, TL[q.t])));
+  c.append(h('div', { class: 'chips' }, h('span', { class: 'qno' }, 'Soal ' + (S.i + 1) + '/' + S.order.length), h('span', { class: 'chip k' }, q.el), h('span', { class: 'chip' }, q.lbl || TL[q.t]), UI.tt = h('span', { class: 'chip tt', role: 'timer' }, '⏱ 60 dtk')), h('div', { class: 'tmr' }, UI.tb = h('i')));
+  if (q.img) c.append(h('img', { class: 'qimg', src: q.img, alt: q.alt || 'Gambar untuk soal ini' }));
   if (q.t === 'a') c.append(h('div', { class: 'sa' }, h('p', {}, h('b', {}, 'Pernyataan: '), q.p), h('p', {}, h('b', {}, 'Sebab: '), q.r)));
   c.append(h('p', { class: 'qtext' }, q.q || 'Tentukan hubungan antara pernyataan dan sebab di atas!'));
-  var body = h('div', { class: q.t === 'a' ? 'opts' : 'tf' });
+  var body = h('div', { class: q.t === 'a' || q.t === 's' || q.t === 'm' ? 'opts' : 'tf' });
   if (q.t === 'j') q.L.forEach(function (l, i) {
     var sel = h('select', { 'aria-label': l[0], onchange: function () { S.ans[i] = sel.value === '' ? null : +sel.value; upd(); } },
       h('option', { value: '' }, '— pilih —'), q.O.map(function (o, k) { return h('option', { value: k }, o); }));
@@ -278,26 +321,36 @@ function renderQ() {
     var inp = h('input', { type: 'text', placeholder: 'Ketik jawabanmu', autocomplete: 'off', 'aria-label': 'Jawaban isian', oninput: function () { S.ans = inp.value; upd(); } });
     UI.inp = inp; body.append(inp);
   }
-  if (q.t === 'a') OA.forEach(function (t, i) {
+  if (q.t === 'a' || q.t === 's') (q.O || OA).forEach(function (t, i) {
     var b = h('button', { class: 'opt', type: 'button', role: 'radio', 'aria-checked': 'false', onclick: function () {
       if (S.done) return; S.ans = i; UI.opts.forEach(function (o, k) { o.setAttribute('aria-checked', k === i ? 'true' : 'false'); }); upd(); } },
       h('span', { class: 'key' }, L[i]), h('span', { class: 'tx' }, t));
     UI.opts.push(b); body.append(b);
   });
-  UI.submit = h('button', { class: 'btn primary', type: 'button', disabled: true, onclick: check }, 'Jawab');
+  if (q.t === 'm') q.O.forEach(function (t, i) {
+    var b = h('button', { class: 'opt', type: 'button', role: 'checkbox', 'aria-checked': 'false', onclick: function () {
+      if (S.done) return; var k = S.ans.indexOf(i); if (k < 0) S.ans.push(i); else S.ans.splice(k, 1);
+      b.setAttribute('aria-checked', k < 0 ? 'true' : 'false'); upd(); } },
+      h('span', { class: 'key' }, L[i]), h('span', { class: 'tx' }, t));
+    UI.opts.push(b); body.append(b);
+  });
+  UI.submit = h('button', { class: 'btn primary', type: 'button', disabled: true, onclick: function () { check(false); } }, 'Jawab');
   UI.fb = h('div', { 'aria-live': 'polite' });
   c.append(body, h('div', { class: 'actions' }, UI.submit), UI.fb);
+  startTimer();
 }
 
 function corr(q) {
   if (q.t === 'j') return h('ul', {}, q.L.map(function (l) { return h('li', {}, l[0] + ' → ', h('b', {}, q.O[l[1]])); }));
   if (q.t === 'k') return h('ul', {}, q.S.map(function (s) { return h('li', {}, s[0] + ' → ', h('b', {}, q.C[s[1]])); }));
   if (q.t === 'i') return h('p', {}, h('b', {}, q.a[0]));
-  return h('p', {}, h('b', {}, L[q.a] + '. '), OA[q.a]);
+  if (q.t === 'm') return h('ul', {}, q.a.map(function (i) { return h('li', {}, h('b', {}, L[i] + '. '), q.O[i]); }));
+  return h('p', {}, h('b', {}, L[q.a] + '. '), (q.O || OA)[q.a]);
 }
 
-function check() {
+function check(timedOut) {
   if (S.done) return;
+  stopTimer();
   var q = Q[S.order[S.i]], f = 0, u = '';
   if (q.t === 'j') {
     var n = 0;
@@ -310,15 +363,21 @@ function check() {
       var r = UI.rows[i], ok = S.ans[i] === s[1]; if (ok) m++;
       r.row.classList.add(ok ? 'ok' : 'no');
       r.bs.forEach(function (b) { b.disabled = true; });
-      r.bs[s[1]].classList.add('correct'); if (!ok) r.bs[S.ans[i]].classList.add('wrong');
+      r.bs[s[1]].classList.add('correct'); if (!ok && S.ans[i] != null) r.bs[S.ans[i]].classList.add('wrong');
     });
     f = m / q.S.length;
-    u = q.S.map(function (s, i) { return s[0] + ' → ' + q.C[S.ans[i]]; }).join('; ');
+    u = q.S.map(function (s, i) { return s[0] + ' → ' + (S.ans[i] == null ? '(kosong)' : q.C[S.ans[i]]); }).join('; ');
   } else if (q.t === 'i') {
     var ok2 = q.a.map(norm).indexOf(norm(S.ans)) >= 0; f = ok2 ? 1 : 0; u = S.ans.trim();
     UI.inp.disabled = true; UI.inp.className = ok2 ? 'ok' : 'no';
+  } else if (q.t === 'm') {
+    var hit = 0, bad = 0;
+    S.ans.forEach(function (i) { if (q.a.indexOf(i) >= 0) hit++; else bad++; });
+    f = Math.max(0, (hit - bad) / q.a.length);
+    u = S.ans.slice().sort().map(function (i) { return L[i]; }).join(' dan ') || '(tidak dijawab)';
+    UI.opts.forEach(function (b, i) { b.disabled = true; if (q.a.indexOf(i) >= 0) b.classList.add('correct'); else if (S.ans.indexOf(i) >= 0) b.classList.add('wrong'); });
   } else {
-    f = S.ans === q.a ? 1 : 0; u = L[S.ans] + '. ' + OA[S.ans];
+    f = S.ans === q.a ? 1 : 0; u = S.ans == null ? '(tidak dijawab)' : L[S.ans] + '. ' + (q.O || OA)[S.ans];
     UI.opts.forEach(function (b, i) { b.disabled = true; if (i === q.a) b.classList.add('correct'); else if (i === S.ans) b.classList.add('wrong'); });
   }
   var base = Math.round(f * 10), bonus = 0;
@@ -330,10 +389,10 @@ function check() {
   var cls = f === 1 ? 'ok' : f > 0 ? 'mid' : 'no', last = S.i === S.order.length - 1;
   var next = h('button', { class: 'btn primary', type: 'button', onclick: nextQ }, last ? 'Lihat hasil' : 'Soal berikutnya');
   UI.fb.append(h('div', { class: 'fb ' + cls },
-    h('h3', {}, (f === 1 ? 'Benar!' : f > 0 ? 'Sebagian benar' : 'Belum tepat') + ' +' + pts + ' poin'),
+    h('h3', {}, (timedOut ? 'Waktu habis! ' : '') + (f === 1 ? 'Benar!' : f > 0 ? 'Sebagian benar' : 'Belum tepat') + ' +' + pts + ' poin'),
     bonus ? h('p', {}, 'Poin dasar ' + base + ' + bonus beruntun ' + bonus) : null,
     f < 1 ? h('div', {}, h('b', {}, 'Jawaban yang benar:'), corr(q)) : null,
-    h('div', { class: 'exp' }, h('b', {}, 'Pembahasan: '), q.x)),
+    q.x ? h('div', { class: 'exp' }, h('b', {}, 'Pembahasan: '), q.x) : null),
     h('div', { class: 'actions', style: 'margin-top:14px' }, next));
   next.focus({ preventScroll: true });
 }
@@ -351,7 +410,7 @@ function finish() {
   var r = $('#s-result'); r.innerHTML = '';
   var stat = function (l, v) { return h('div', { class: 'stat' }, h('small', {}, l), h('b', {}, v)); };
   r.append(h('div', { class: 'card stack' },
-    h('div', {}, h('div', { class: 'eyebrow' }, 'Hasil kuis'), h('h2', { style: 'font-size:clamp(1.6rem,6vw,2.4rem)' }, S.av + ' ' + title(S.nilai) + ', ' + S.name)),
+    h('div', {}, h('div', { class: 'eyebrow' }, 'Hasil kuis'), h('h2', { style: 'font-size:clamp(1.6rem,6vw,2.4rem)' }, avEl(S.av, 'md'), ' ' + title(S.nilai) + ', ' + S.name)),
     h('div', {}, h('div', { class: 'eyebrow' }, 'Skor total'), h('div', { class: 'big-score' }, S.score)),
     h('div', { class: 'g4' }, stat('Nilai (0–100)', S.nilai), stat('Benar penuh', S.full + '/' + n), stat('Beruntun terbaik', S.best)),
     h('p', { class: 'muted' }, 'Skor memuat bonus beruntun. Nilai hanya dihitung dari poin dasar.'),
@@ -368,10 +427,11 @@ function finish() {
 
   r.append(h('div', { class: 'card stack' }, h('h2', { style: 'font-size:1.3rem' }, 'Pembahasan'),
     S.log.map(function (l, i) {
-      var d = h('details', { class: 'rv' }, h('summary', {}, (i + 1) + '. ' + TL[l.q.t] + ' · ' + l.q.el + ' · ' + (l.f === 1 ? 'Benar' : l.f > 0 ? 'Sebagian' : 'Salah')),
+      var d = h('details', { class: 'rv' }, h('summary', {}, (i + 1) + '. ' + (l.q.lbl || TL[l.q.t]) + ' · ' + l.q.el + ' · ' + (l.f === 1 ? 'Benar' : l.f > 0 ? 'Sebagian' : 'Salah')),
         h('div', { class: 'rb' },
+          l.q.img ? h('img', { class: 'qimg', src: l.q.img, alt: l.q.alt || 'Gambar soal' }) : null,
           l.q.t === 'a' ? h('p', {}, h('b', {}, 'Pernyataan: '), l.q.p, ' ', h('b', {}, 'Sebab: '), l.q.r) : h('p', {}, h('b', {}, 'Soal: '), l.q.q),
-          h('p', {}, h('b', {}, 'Jawabanmu: '), l.u), h('div', {}, h('b', {}, 'Jawaban yang benar:'), corr(l.q)), h('p', {}, h('b', {}, 'Pembahasan: '), l.q.x)));
+          h('p', {}, h('b', {}, 'Jawabanmu: '), l.u), h('div', {}, h('b', {}, 'Jawaban yang benar:'), corr(l.q)), l.q.x ? h('p', {}, h('b', {}, 'Pembahasan: '), l.q.x) : null));
       if (l.f < 1) d.open = true; return d;
     })));
   show('result'); save();
