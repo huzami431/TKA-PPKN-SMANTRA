@@ -419,7 +419,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
       <div class="heroes" id="heroes" role="radiogroup" aria-label="Pilih pahlawan"></div>
       <div class="win in hd" id="hdetail"></div>
       <label class="fld" for="nm">Nama petualang
-        <input type="text" id="nm" maxlength="18" placeholder="Contoh: Dudung dangdut" autocomplete="off">
+        <input type="text" id="nm" maxlength="18" placeholder="Contoh: Dudung Dangdut" autocomplete="off">
       </label>
       <div class="row"><button class="btn big" id="next" type="button">Lanjut ▶</button></div>
     </div>
@@ -1023,10 +1023,10 @@ var BGM = (function () {
   var NM = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 }, cur = null, tm = null, mg = null, nz = null, mute = false;
   try { mute = localStorage.getItem('ppkn_mute') === '1'; } catch (e) {}
   var TR = {
-    title: { bpm: 112, lead: 'c5:2 e5:2 g5:4 a5:2 g5:2 e5:4 f5:2 a5:2 c6:4 b5:2 g5:2 d5:4 c5:2 e5:2 g5:4 e6:2 d6:2 c6:4 a5:2 c6:2 b5:2 g5:2 c6:6 r:2',
-      ch: 'c3 a2m f2 g2 c3 a2m f2 c3', bass: [[0, 0, 4], [4, 7, 4]], arp: 1, k: [0, 4], s: [], h: [2, 6], loop: 1 },
-    adv: { bpm: 150, lead: 'a4:1 c5:1 e5:2 d5:1 c5:1 b4:2 a4:1 c5:1 e5:2 g5:2 e5:2 f4:1 a4:1 c5:2 b4:1 a4:1 g4:2 e4:1 g4:1 b4:2 d5:4 a4:1 c5:1 e5:2 d5:1 c5:1 b4:2 e5:2 g5:2 a5:2 g5:2 f5:2 e5:2 d5:2 c5:2 b4:2 d5:2 e5:4',
-      ch: 'a2m a2m f2 e2m a2m c3 d3m e3', bass: [[0, 0, 2], [2, 0, 2], [4, 7, 2], [6, 0, 2]], arp: 1, k: [0, 4], s: [2, 6], h: [1, 3, 5, 7], loop: 1 },
+    title: { bpm: 100, lead: 'g4:3 c5:1 e5:2 g5:2 f5:3 d5:1 a#4:4 a4:3 c5:1 f5:2 a5:2 g5:3 f5:1 d5:2 b4:2 c5:2 e5:2 g5:2 c6:2 a#5:3 g5:1 f5:2 d5:2 a5:3 c6:1 a5:2 f5:2 g5:2 b5:2 d6:4',
+      ch: 'c3 a#2 f2 g2 c3 a#2 f2 g2', bass: [[0, 0, 4], [4, 7, 4]], arp: 0, k: [0, 4], s: [], h: [], loop: 1 },
+    adv: { bpm: 138, lead: 'd5:2 d5:1 f#5:1 a5:4 g5:2 g5:1 e5:1 c5:4 b4:2 d5:2 g5:2 b5:2 a5:3 f#5:1 d5:4 d5:1 e5:1 f#5:2 a5:2 d6:2 c6:2 g5:2 e5:2 g5:2 g5:2 b5:2 a5:2 g5:2 e5:2 a5:2 c#6:2 a5:2',
+      ch: 'd3 c3 g2 d3 d3 c3 g2 a2', bass: [[0, 0, 1], [1, 0, 1], [2, 0, 1], [3, 7, 1], [4, 0, 1], [5, 0, 1], [6, 7, 1], [7, 0, 1]], arp: 1, k: [0, 4], s: [2, 6], h: [1, 3, 5, 7], loop: 1 },
     dead: { bpm: 75, lead: 'e5:2 d5:2 c5:2 b4:2 a4:4 g4:2 e4:2', ch: 'a2m e2m', bass: [[0, 0, 8]], arp: 0, k: [], s: [], h: [], loop: 0 }
   };
   function mid(s) { var m = /^([a-g])(#?)(\d)/.exec(s); return 12 * (+m[3] + 1) + NM[m[1]] + (m[2] ? 1 : 0); }
@@ -1094,7 +1094,17 @@ var BGM = (function () {
     for (i = 0; i < n; i++) { v = Math.max(-1, Math.min(1, buf[i])); dv.setInt16(44 + i * 2, v < 0 ? v * 32768 : v * 32767, true); }
     return new Blob([b], { type: 'audio/wav' });
   }
-  function src(name) { if (!cache[name]) cache[name] = URL.createObjectURL(toWav(render(TR[name]))); return cache[name]; }
+  var bufs = {}, wa = null, DBG = /[?&]debug/.test(location.search);
+  function pcm(name) { if (!bufs[name]) bufs[name] = render(TR[name]); return bufs[name]; }
+  function src(name) { if (!cache[name]) cache[name] = URL.createObjectURL(toWav(pcm(name))); return cache[name]; }
+  function msg(t, ms) {
+    try {
+      var d = document.getElementById('bgmmsg');
+      if (!d) { d = document.createElement('div'); d.id = 'bgmmsg'; d.style.cssText = 'position:fixed;left:8px;right:56px;top:calc(8px + env(safe-area-inset-top,0px));z-index:400;background:#1a1450;color:#ffd24a;border:3px solid #ffd24a;font:12px/1.3 monospace;padding:6px 8px;display:none;box-shadow:3px 3px 0 #000;pointer-events:none'; document.body.appendChild(d); }
+      d.textContent = t; d.style.display = 'block'; clearTimeout(d._t); d._t = setTimeout(function () { d.style.display = 'none'; }, ms || 4000);
+    } catch (e) {}
+  }
+  function dbg(t) { try { console.log('[BGM] ' + t); } catch (e) {} if (DBG) msg('BGM: ' + t, 6000); }
   function fade(a, from, to, ms, done) {
     var t0 = Date.now(), iv = setInterval(function () {
       var p = Math.min(1, (Date.now() - t0) / ms);
@@ -1103,15 +1113,40 @@ var BGM = (function () {
     }, 40);
   }
   function go(a) { var p = a.play(); if (p && p.catch) p.catch(function () {}); }
+  /* jalur cadangan: putar buffer yang sama lewat Web Audio bila elemen <audio> gagal / macet */
+  function stopWA() { var w = wa; wa = null; if (!w) return; try { w.g.gain.setTargetAtTime(0, AC.currentTime, .08); } catch (e) {} setTimeout(function () { try { w.s.stop(); } catch (e) {} }, 500); }
+  function startWA(name) {
+    try {
+      if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+      if (AC.state !== 'running' && AC.resume) AC.resume();
+      var d = pcm(name), b = AC.createBuffer(1, d.length, SR), s2 = AC.createBufferSource(), g = AC.createGain();
+      if (b.copyToChannel) b.copyToChannel(d, 0); else b.getChannelData(0).set(d);
+      s2.buffer = b; s2.loop = !!TR[name].loop; g.gain.value = mute ? 0 : 1; s2.connect(g); g.connect(AC.destination); s2.start(0);
+      wa = { s: s2, g: g };
+      dbg('cadangan WebAudio ' + name + ' (' + AC.state + ')');
+    } catch (e) { msg('Musik gagal diputar: ' + (e && e.message), 7000); }
+  }
   return {
     play: function (name) {
       if (curName === name) return;
-      var old = aud; curName = name; aud = null;
+      var old = aud; curName = name; aud = null; stopWA();
       if (old) fade(old, old.volume, 0, 350, function () { old.pause(); });
       if (!name) return;
-      var a = new Audio(src(name));
+      dbg('play ' + name + ' mute=' + mute);
+      if (mute) msg('Suara sedang dimatikan. Ketuk ikon 🔇 di kanan atas untuk menyalakan.', 5000);
+      var a;
+      try { a = new Audio(src(name)); } catch (e) { startWA(name); return; }
       a.loop = !!TR[name].loop; a.muted = mute; a.volume = 0; a.preload = 'auto';
-      aud = a; go(a); fade(a, 0, 1, 300);
+      a.addEventListener('error', function () { if (aud === a) { aud = null; dbg('audio error'); startWA(name); } });
+      aud = a;
+      var pr = a.play();
+      if (pr && pr.catch) pr.catch(function (e) { dbg('audio.play: ' + (e && e.name)); if (e && e.name !== 'NotAllowedError' && aud === a) { aud = null; startWA(name); } });
+      fade(a, 0, 1, 300);
+      setTimeout(function () {
+        if (aud !== a || a.ended) return;
+        if (!a.paused && a.currentTime < .2) { dbg('audio macet'); a.pause(); aud = null; startWA(name); }
+        else if (a.paused) msg('Ketuk layar sekali untuk menyalakan musik.', 5000);
+      }, 1800);
     },
     prep: function () { Object.keys(TR).forEach(function (k, i) { setTimeout(function () { try { src(k); } catch (e) {} }, 200 + i * 500); }); },
     unlock: function () {
@@ -1119,7 +1154,7 @@ var BGM = (function () {
       if (aud && aud.paused && !aud.ended) go(aud);
     },
     vis: function (hid) { if (!aud) return; if (hid) aud.pause(); else if (!aud.ended) go(aud); },
-    toggle: function () { mute = !mute; try { localStorage.setItem('ppkn_mute', mute ? '1' : '0'); } catch (e) {} if (aud) aud.muted = mute; return mute; },
+    toggle: function () { mute = !mute; try { localStorage.setItem('ppkn_mute', mute ? '1' : '0'); } catch (e) {} if (aud) aud.muted = mute; if (wa) wa.g.gain.value = mute ? 0 : 1; return mute; },
     muted: function () { return mute; }
   };
 })();
